@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch,  Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+
 import './App.css';
+import configStore from './config/store';
+import Auth from './screens/Login';
+import Product from './screens/Product';
+import ErrorPage from './screens/ErrorPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default class extends Component {
+  constructor(props) {
+    super(props);
+
+    const { store, persist } = configStore();
+    this.state = {
+      store,
+      persist,
+    };
+  }
+
+  render () {
+    return (
+      <div className="App">
+        <Provider store={this.state.store}>
+          <PersistGate persistor={this.state.persist}>
+              <Router>
+                <Switch>
+                  <Route path='/' exact component={Auth} />
+                  <Route path='/product' exact component={Product} />
+                  <Route path='*' component={ErrorPage} />
+                </Switch>
+              </Router>
+          </PersistGate>
+        </Provider>
+        
+      </div>
+    );
+  }
 }
-
-export default App;

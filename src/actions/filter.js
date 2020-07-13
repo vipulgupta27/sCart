@@ -1,0 +1,1 @@
+export const UPDATE_FILTER_LIST = 'UPDATE_FILTER_LIST';
