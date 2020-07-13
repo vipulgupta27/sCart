@@ -8,7 +8,6 @@ import { searchProduct } from '../actions/product';
 import { connect } from 'react-redux';
 
 function Product(props) {
-    console.log(props);
     const [searchString, setSearchString] = useState('');
     const handleSearchString = ({ target }) => {
             setSearchString(target.value);

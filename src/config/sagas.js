@@ -57,7 +57,6 @@ export function* checkUserFunc(action) {
 
 export function* searchProduct(action){
     try{
-        console.log(action);
         let response;
         if (action.data === ''){
             response = yield call(searchProductList, action.data);

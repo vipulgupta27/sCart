@@ -24,7 +24,6 @@ class Login extends Component {
     }
     
     login() {
-        console.log('sfsgg');
         if (this.state.userName === '' || this.state.password === '') {
             alert('User Name or Password is empty. Please fill the Detail.');
         }else{
@@ -33,7 +32,6 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.props);
         if (this.props.isLogin) {
             localStorage.setItem('isLogin', true);
             localStorage.setItem('userName', this.props.userName);

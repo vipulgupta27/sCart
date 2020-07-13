@@ -7,7 +7,6 @@ const initialState = {
     filterProduct: [],
 }
 export default (state = initialState, action) => {
-    // console.log(action);
     switch (action.type) {
         case UPDATE_PRODUCT_LIST: 
             return {
@@ -17,7 +16,6 @@ export default (state = initialState, action) => {
             }
         case FILTER_APPLY: 
             if (action.filterType === 'P'){
-                console.log(state.allProductList);
                 return {
                     ...state,
                     filterProduct: (state.allProductList).filter((val) => {

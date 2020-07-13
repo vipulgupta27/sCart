@@ -4,7 +4,6 @@ const initialState = {
     filterList: [],
 }
 export default (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case UPDATE_FILTER_LIST: 
             return {
