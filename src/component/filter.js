@@ -15,36 +15,34 @@ const checkPrice = (minPrice, maxPrice) => {
     }
 }
 const PriceFilter = (data) => {
-    const [minPrice, setMminPrice] = useState('Min');
-    const [maxPrice, setMaxPrice] = useState('Max');
+    const [minPrice, setMminPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(5000);
     let props = data.props
     const heading = props['type'];
     const optionVal = props['values'];
-    let optionItems = optionVal.map((optionVal) =>
-                <option key={optionVal.key} value={optionVal.key}>{optionVal.displayValue}</option>
-            );
+    let optionItems = optionVal.map((optionVal) =>{
+        if (optionVal.key === 'Min') {
+            return <option key={optionVal.key} value={0}>{optionVal.displayValue}</option>;
+        }else if (optionVal.key === 'Max'){
+            return <option key={optionVal.key} value={5000}>{optionVal.displayValue}</option>;
+        }else{
+            return <option key={optionVal.key} value={parseInt(optionVal.key)}>{optionVal.displayValue}</option>;
+        }
+    });
     const minPriceVal = async (target) => {
         let minValPr = target.target.value;
-        minValPr = minValPr === 'Min' ? 0 : (minValPr === 'Max' ? 5000 : minValPr);
-        let maxPriceval = maxPrice === 'Min' ? 0 : (maxPrice === 'Max' ? 5000 : maxPrice);
         await setMminPrice(minValPr);
         
-        if (checkPrice(minValPr, maxPriceval)) {
-            await data.dispatch(filterProduct({
-                minPrice: parseInt(minValPr),
-                maxPrice: parseInt(maxPriceval)
-            }, 'P'));
+        if (checkPrice(minValPr, maxPrice)) {
+            await data.dispatch(filterProduct({ minPrice: parseInt(minValPr), maxPrice: parseInt(maxPrice)}, 'P'));
         }
     }
+
     const maxPriceVal = async (target) => { 
         let maxValuePr = target.target.value;
-        maxValuePr = maxValuePr === 'Min' ? 0 : (maxValuePr === 'Max' ? 5000 : maxValuePr);
-        let minPriceVal = minPrice === 'Min' ? 0 : (minPrice === 'Max' ? 5000 : minPrice);
         await setMaxPrice(maxValuePr);
-        if (checkPrice(minPriceVal, maxValuePr)) {
-            await data.dispatch(filterProduct({
-                minPrice: parseInt(minPriceVal),
-                maxPrice: parseInt(maxValuePr)
+        if (checkPrice(minPrice, maxValuePr)) {
+            await data.dispatch(filterProduct({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxValuePr)
             }, 'P'));
         }
     }
@@ -66,15 +64,20 @@ const PriceFilter = (data) => {
 const CheckboxFilter = (data) => {
     let props = data.props;
     let flag = data.flag ? "filterScroll" : "";
+    let filterName = data.flag ? 'brand': 'color';
     const heading = props['type'];
     const optionVal = props['values'];
     let optionItems = optionVal.map((optionVal) =>
-                <label className="floatLeft" key={ data.flag ? optionVal.title :optionVal.color}><input type="checkbox" name="color" value={ data.flag ? optionVal.title :optionVal.color} />{optionVal.title}<br/></label>
-            );
+            <React.Fragment key={data.flag ? optionVal.title :optionVal.color} >
+                <label className="floatLeft colorName" key={ data.flag ? optionVal.title :optionVal.color}><input type="checkbox" name={filterName} value={ data.flag ? optionVal.title :optionVal.color} />
+                    {!data.flag && <div className="colorgrid" style={{backgroundColor: `${optionVal.color}`, marginRight: '0.5em'}}></div>}{" "+optionVal.title}
+                </label>
+            </React.Fragment>
+        );
     return (
         <div className ={`borderContainer insideFilter ${flag}`} >
             <h2>{heading}</h2>
-            <div className="checkboxList">
+            <div className="checkboxList filterList">
                 {optionItems}
             </div>
         </div>
