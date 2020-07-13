@@ -1,16 +1,16 @@
 To Start the Project 
 
-# yarn install
-# yarn start
+##### yarn install
+##### yarn start
 
 Used the following npm packages: 
 
-# react-redux
-# react-router-dom
-# react-saga
-# redux-logger
-# redux-persist
-# redux-saga
+##### react-redux
+##### react-router-dom
+##### react-saga
+##### redux-logger
+##### redux-persist
+##### redux-saga
 
 
 I use the 
