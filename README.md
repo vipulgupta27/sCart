@@ -25,3 +25,10 @@ I use the
 - API calls in sCart/src/config/sagas.js 
 - All Actions Defined sCart/src/Actions
 - All Reducers defined in sCart/src/reducers
+
+For login
+
+```sh
+User name: amigo
+Password: delta
+```
