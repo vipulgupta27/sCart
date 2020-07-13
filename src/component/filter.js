@@ -1,65 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { filterProduct } from '../actions/product'; 
+
+import PriceFilter from './priceFilter';
 
 import '../App.css';
-
-const checkPrice = (minPrice, maxPrice) => {
-    let minValue = (minPrice === 'Min') ? 0 : parseInt(minPrice);
-    let maxValue = (maxPrice === 'Max') ? 5000 : parseInt(maxPrice);
-    if (minValue < maxValue) {
-        return true;
-    } else {
-        return false;
-    }
-}
-const PriceFilter = (data) => {
-    const [minPrice, setMminPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(5000);
-    let props = data.props
-    const heading = props['type'];
-    const optionVal = props['values'];
-    let optionItems = optionVal.map((optionVal) =>{
-        if (optionVal.key === 'Min') {
-            return <option key={optionVal.key} value={0}>{optionVal.displayValue}</option>;
-        }else if (optionVal.key === 'Max'){
-            return <option key={optionVal.key} value={5000}>{optionVal.displayValue}</option>;
-        }else{
-            return <option key={optionVal.key} value={parseInt(optionVal.key)}>{optionVal.displayValue}</option>;
-        }
-    });
-    const minPriceVal = async (target) => {
-        let minValPr = target.target.value;
-        await setMminPrice(minValPr);
-        
-        if (checkPrice(minValPr, maxPrice)) {
-            await data.dispatch(filterProduct({ minPrice: parseInt(minValPr), maxPrice: parseInt(maxPrice)}, 'P'));
-        }
-    }
-
-    const maxPriceVal = async (target) => { 
-        let maxValuePr = target.target.value;
-        await setMaxPrice(maxValuePr);
-        if (checkPrice(minPrice, maxValuePr)) {
-            await data.dispatch(filterProduct({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxValuePr)
-            }, 'P'));
-        }
-    }
-    return (
-        <div className = "borderContainer insideFilter" >
-            <h2>{heading}</h2>
-            <div className="dropdownList">
-                <select onChange={minPriceVal} value={minPrice}>
-                    {optionItems}
-                </select>
-                <select onChange={maxPriceVal} value={maxPrice}>
-                    {optionItems}
-                </select>
-            </div>
-        </div>
-    )
-}
 
 const CheckboxFilter = (data) => {
     let props = data.props;
