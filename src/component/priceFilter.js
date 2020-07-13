@@ -1,41 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import { filterProduct } from '../actions/product'; 
+import { setMinPrice, setMaxPrice } from '../actions/filter';
 
-const PriceFilter = (data) => {
-    const [minPrice, setMminPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(5000);
-    let props = data.props
-    const heading = props['type'];
-    const optionVal = props['values'];
-    let optionItems = optionVal.map((optionVal) =>{
-        if (optionVal.key === 'Min') {
-            return <option key={optionVal.key} value={0}>{optionVal.displayValue}</option>;
-        }else if (optionVal.key === 'Max'){
-            return <option key={optionVal.key} value={5000}>{optionVal.displayValue}</option>;
-        }else{
-            return <option key={optionVal.key} value={parseInt(optionVal.key)}>{optionVal.displayValue}</option>;
-        }
+const PriceFilter = (props) => {
+    const minPrice = parseInt(props.minPrice);
+    const maxPrice = parseInt(props.maxPrice);
+    
+    let optionItems = (props.filters[2]['values']).map((optionVal) => {
+        let priceVal = (optionVal.key === 'Min') ? 0 : ((optionVal.key === 'Max') ? 5000 : optionVal.key);
+        return <option key={optionVal.key} value={parseInt(priceVal)}>{optionVal.displayValue}</option>;
     });
+
     const minPriceVal = async (target) => {
         let minValPr = target.target.value;
-        await setMminPrice(minValPr);
-        if (minPrice < maxPrice) {
-            await data.dispatch(filterProduct({ minPrice: parseInt(minValPr), maxPrice: parseInt(maxPrice)}, 'P'));
-        }
+        props.dispatch(setMinPrice(minValPr));
+        if (minValPr < maxPrice) await props.dispatch(filterProduct({ minPrice: parseInt(minValPr), maxPrice: parseInt(maxPrice)}, 'P'));
     }
 
     const maxPriceVal = async (target) => { 
         let maxValuePr = target.target.value;
-        await setMaxPrice(maxValuePr);
-        if (minPrice < maxPrice) {
-            await data.dispatch(filterProduct({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxValuePr)
-            }, 'P'));
-        }
+        props.dispatch(setMaxPrice(maxValuePr));
+        if (minPrice < maxValuePr) await props.dispatch(filterProduct({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxValuePr)}, 'P'));
     }
     return (
         <div className = "borderContainer insideFilter" >
-            <h2>{heading}</h2>
+            <h2>{props.filters[2]['type']}</h2>
             <div className="dropdownList">
                 <select onChange={minPriceVal} value={minPrice}>
                     {optionItems}
@@ -48,4 +39,10 @@ const PriceFilter = (data) => {
     )
 }
 
-export default PriceFilter;
+const mapStateToProps = state => ({
+    filters: state.filter.filterList,
+    minPrice: state.filter.minPrice,
+    maxPrice: state.filter.maxPrice,
+});
+
+export default connect(mapStateToProps)(PriceFilter);
