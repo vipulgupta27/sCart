@@ -1,4 +1,4 @@
-import { UPDATE_FILTER_LIST, SET_MIN_PRICE_VAL, SET_MAX_PRICE_VAL } from '../actions/filter';
+import { UPDATE_FILTER_LIST, SET_MIN_PRICE_VAL, SET_MAX_PRICE_VAL, SET_COLOR, SET_BRAND } from '../actions/filter';
 
 const initialState = {
     filterList: [],
@@ -23,6 +23,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 maxPrice: action.data,
+            }
+        case SET_COLOR:
+            return {
+                ...state,
+                selectColor: action.data,
+            }
+        case SET_BRAND: 
+            return {
+                ...state,
+                selectBrand: action.data,
             }
         case "persist/REHYDRATE": 
             return {

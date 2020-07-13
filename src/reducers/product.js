@@ -15,22 +15,26 @@ export default (state = initialState, action) => {
                 filterProduct: action.data,
             }
         case FILTER_APPLY: 
-            if (action.filterType === 'P'){
-                return {
+            return {
                     ...state,
                     filterProduct: (state.allProductList).filter((val) => {
-                        if (action.data.maxPrice !== 5000){
-                            return val.price.final_price >= action.data.minPrice && val.price.final_price <= action.data.maxPrice;
-                        }else{
-                            return val.price.final_price >= action.data.minPrice;
+                        let flag;
+                        if (action.data.maxPrice !== 5000) {
+                            flag = val.price.final_price >= action.data.MN && val.price.final_price <= action.data.MX;
+                        } else {
+                            flag = val.price.final_price >= action.data.minPrice;
                         }
+                        if ((action.data.C).length) {
+                            flag = flag && (action.data.C).includes(val.colour.color);
+                        }
+                        if ((action.data.B).length) {
+                            console.log(val.brand, val);
+                            flag = flag && (action.data.B).map(v => v.toLowerCase()).includes((val.brand).toLowerCase());
+                        }
+                        return flag;
                     })
                 }
-            }else{
-                return {
-                    ...state
-                }
-            }
+            
         case ADD_TO_CART: 
             return {
                 ...state,
@@ -39,7 +43,8 @@ export default (state = initialState, action) => {
         case "persist/REHYDRATE":
             if (action.payload){
                 return {
-                    ...action.payload.product
+                    ...action.payload.product,
+                    filterProduct: action.payload.product.allProductList,
                 }
             }else{
                 return {

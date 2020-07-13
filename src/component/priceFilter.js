@@ -13,16 +13,16 @@ const PriceFilter = (props) => {
         return <option key={optionVal.key} value={parseInt(priceVal)}>{optionVal.displayValue}</option>;
     });
 
-    const minPriceVal = async (target) => {
-        let minValPr = target.target.value;
+    const minPriceVal = async (e) => {
+        let minValPr = e.target.value;
         props.dispatch(setMinPrice(minValPr));
-        if (minValPr < maxPrice) await props.dispatch(filterProduct({ minPrice: parseInt(minValPr), maxPrice: parseInt(maxPrice)}, 'P'));
+        if (minValPr < maxPrice) await props.dispatch(filterProduct({ 'MN': parseInt(minValPr), 'MX': parseInt(maxPrice), 'B': props.selectBrand, 'C': props.selectColor}));
     }
 
-    const maxPriceVal = async (target) => { 
-        let maxValuePr = target.target.value;
+    const maxPriceVal = async (e) => { 
+        let maxValuePr = e.target.value;
         props.dispatch(setMaxPrice(maxValuePr));
-        if (minPrice < maxValuePr) await props.dispatch(filterProduct({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxValuePr)}, 'P'));
+        if (minPrice < maxValuePr) await props.dispatch(filterProduct({ 'MN': parseInt(minPrice), 'MX': parseInt(maxValuePr), 'B': props.selectBrand, 'C': props.selectColor}));
     }
     return (
         <div className = "borderContainer insideFilter" >
@@ -43,6 +43,8 @@ const mapStateToProps = state => ({
     filters: state.filter.filterList,
     minPrice: state.filter.minPrice,
     maxPrice: state.filter.maxPrice,
+    selectBrand: state.filter.selectBrand,
+    selectColor: state.filter.selectColor,
 });
 
 export default connect(mapStateToProps)(PriceFilter);
