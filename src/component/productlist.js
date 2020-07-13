@@ -37,7 +37,7 @@ function ProductList(props) {
     );
 }
 const mapStateToProps = state => ({
-    productList: state.product.productList,
+    productList: state.product.filterProduct,
     cartProductNo: state.product.cartAdded
 });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { resetErrorMessage, checkUser } from '../actions/login';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 import '../App.css';
 import loader from '../assets/loader.gif'
 
