@@ -21,19 +21,16 @@ const CheckboxFilter =  (props) => {
         await !props.flag ? props.dispatch(setColor(options)) : props.dispatch(setBrand(options));
         await !props.flag ? props.dispatch(filterProduct({ 'C': options, 'B': props.selectBrand, 'MN': props.minPrice, 'MX': props.maxPrice })) : props.dispatch(filterProduct({ 'C': props.selectColor, 'B': options, 'MN': props.minPrice, 'MX': props.maxPrice }));
     }
-    let optionItems = (props.filters[index]['values']).map((optionVal) =>
-            <React.Fragment key={props.flag ? optionVal.title :optionVal.color} >
-                <label className="floatLeft colorName" key={ props.flag ? optionVal.title :optionVal.color}>
-                    <input type="checkbox" name={filterName} value={ props.flag ? optionVal.title :optionVal.color} onClick={handleClick}/>
-                    {!props.flag && <div className="colorgrid" style={{backgroundColor: `${optionVal.color}`, marginRight: '0.5em'}}></div>}{optionVal.title}
-                </label>
-            </React.Fragment>
-        );
+
     return (
         <div className ={`borderContainer insideFilter ${flag}`} >
             <h2>{props.filters[index]['type']}</h2>
             <div className="checkboxList filterList">
-                {optionItems}
+                { props.filters[index]['values'] && (props.filters[index]['values']).map((optionVal, index) =>
+                <label className="floatLeft colorName" key={ (props.flag ? optionVal.title :optionVal.color) + index}>
+                    <input type="checkbox" name={filterName} value={ props.flag ? optionVal.title :optionVal.color} onClick={handleClick}/>
+                    {!props.flag && <div className="colorgrid" style={{backgroundColor: `${optionVal.color}`, marginRight: '0.5em'}}></div>}{optionVal.title}
+                </label>)}
             </div>
         </div>
     )

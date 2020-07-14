@@ -8,21 +8,20 @@ import '../App.css';
 
 const ProductDetail = (props) => {
     const data = props.data;
-    return data.map((val) => 
-        <React.Fragment key={val.id} >
-            <div className="product-flexbox-row child">
-                <img src={val.image} className="productImage" alt={val.title}/>
-                <label>{val.title}</label>
-                <label> {(val.brand).toLowerCase().replace(/\b[a-z]/g, function (letter) {
-                        return letter.toUpperCase();
-                    })
-                } </label>
-                <label>Price: {val.price.final_price}$</label>
-                <label>Discount: {val.discount}%</label>
-                <label className="colorName">Color:<div className="colorgrid marginLeft" style={{backgroundColor: `${val.colour.color}`}}></div></label>
-                <a href="#" onClick={()=>props.dispatch(addToCart())}><img src={Add} className="colorgrid" alt="Add To Cart"/> Add to cart</a>
-            </div>
-        </React.Fragment>
+    return data.map((val, index) => 
+        <div className="product-flexbox-row child" key={val.id + index}>
+            <img src={val.image} className="productImage" alt={val.title}/>
+            <label>{val.title}</label>
+            <label> {(val.brand).toLowerCase().replace(/\b[a-z]/g, function (letter) {
+                    return letter.toUpperCase();
+                })
+            } </label>
+            <label>Price: {val.price.final_price}$</label>
+            <label>Discount: {val.discount}%</label>
+            <label className="colorName">Color:<div className="colorgrid marginLeft" style={{backgroundColor: `${val.colour.color}`}}></div></label>
+            <a href="#" onClick={()=>props.dispatch(addToCart())}><img src={Add} className="colorgrid" alt="Add To Cart"/> Add to cart</a>
+        </div>
+        
     );
 }
 

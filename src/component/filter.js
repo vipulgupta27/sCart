@@ -9,20 +9,15 @@ import '../App.css';
 
 
 function Filter(props) {
-    if (!props.isLogin) {
-        localStorage.setItem('isLogin', true);
-        localStorage.setItem('userName', this.props.userName);
-        return <Redirect to = '/' / > ;
-    }
     return (
-        <div className="filter">
+        props.isLogin ? (<div className="filter">
             <h3>Filter</h3>
             <div className="filterList">
                 <PriceFilter/>
                 <CheckboxFilter flag={false}/>
                 <CheckboxFilter flag/>
             </div>
-        </div>
+        </div>) :<Redirect to = '/' />
             
     );
 }

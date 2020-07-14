@@ -37,7 +37,6 @@ const configureStore = () => {
     const store = createStore(persistReducer, applyMiddleware(...middleware));
     sagaMiddleware.run(sagas);
     const persist = persistStore(store);
-    // const rehydrate = persist.dispatch('persist/REHYDRATE')
     store.persistor = persist;
     return {
         store,
